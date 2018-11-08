@@ -25,10 +25,14 @@
 "   ii: operate on all text at current indent level
 "   ai: operate on all text plus one line up at current indent level
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('python3')
+  silent! python3 1
+endif
 
 " long live vim
 set encoding=utf-8
 set nocompatible
+set shell=/bin/bash
 
 " vundle
 filetype off
@@ -45,10 +49,10 @@ Plugin 'sickill/vim-monokai'
 Plugin 'hukl/Smyck-Color-Scheme'
 Plugin 'vim-scripts/wombat256.vim'
 Plugin 'flazz/vim-colorschemes'
+Plugin 'challenger-deep-theme/vim'
 
 " plugins
 Plugin 'mileszs/ack.vim'
-" Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-fugitive'
 Plugin 'jistr/vim-nerdtree-tabs'
@@ -70,6 +74,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'xolox/vim-misc'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
+Plugin 'tpope/vim-abolish'
 " Plugin 'xolox/vim-easytags'
 
 " syntax files
@@ -80,9 +85,9 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'groenewege/vim-less'
 Plugin 'leafgarland/typescript-vim'
+Plugin 'flowtype/vim-flow'
 Plugin 'mxw/vim-jsx'
 Plugin 'fatih/vim-go'
-" Plugin 'scrooloose/syntastic'
 Plugin 'w0rp/ale'
 
 call vundle#end()
@@ -114,18 +119,23 @@ let g:airline#extensions#ale#enabled = 1
 " ale config
 let g:ale_linters = {'go': ['gometalinter', 'gofmt']}
 let g:ale_go_metalinter_options = "--fast"
-nmap <silent> <C-n> <Plug>(ale_next_wrap)
+let g:ale_lint_on_text_changed = "normal"
+let g:ale_lint_on_insert_leave = 1
+let g:ale_sign_error = '❌'
+let g:ale_sign_style_error = '⁉️'
+let g:ale_sign_warning = '⚠️'
+let g:ale_sign_style_warning = '💩'
 
 " easymotion config
 let g:EasyMotion_smartcase = 1
 map \j <Plug>(easymotion-j)
 map \k <Plug>(easymotion-k)
 
-" ctrlp config
-" let g:ctrlp_custom_ignore = '\v([\/]\.(git|hg|svn)|node_modules.*|\/lib\/.*)$'
-
 " fzf config
 let g:fzf_buffers_jump = 1
+autocmd! FileType fzf
+autocmd  FileType fzf set laststatus=0 noshowmode noruler
+  \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
 " coffeescript config
 hi link coffeeSpaceError NONE
@@ -197,7 +207,7 @@ endif
 " font options
 set background=dark
 set t_Co=256
-colorscheme pride
+colorscheme challenger_deep
 
 " keep at least 5 lines below the cursor
 set scrolloff=5
@@ -266,6 +276,8 @@ nnoremap <leader>G <C-]>
 nnoremap <leader>h :tabnew<CR>:ConqueTerm bash<CR>
 nnoremap <leader>l :NERDTreeTabsToggle<CR>
 nnoremap <leader>k :CheckSyntax<CR>
+nnoremap <leader>n :ALENextWrap<CR>
+nnoremap <leader>N :ALEPreviousWrap<CR>
 nnoremap <leader>o :CommandT<CR>
 nnoremap <leader>p :set invpaste<CR>
 nnoremap <leader>t :tabnew<CR>
