@@ -93,6 +93,8 @@ Plugin 'w0rp/ale'
 call vundle#end()
 filetype plugin indent on
 
+let g:ycm_server_python_interpreter='/usr/local/bin/python3'
+
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsListSnippets="<c-l>"
@@ -117,7 +119,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 
 " ale config
-let g:ale_linters = {'go': ['gometalinter', 'gofmt']}
+let g:ale_linters = {'go': ['gometalinter --linter="vet:go vet --composites=false"', 'gofmt']}
 let g:ale_go_metalinter_options = "--fast"
 let g:ale_lint_on_text_changed = "normal"
 let g:ale_lint_on_insert_leave = 1
@@ -136,6 +138,7 @@ let g:fzf_buffers_jump = 1
 autocmd! FileType fzf
 autocmd  FileType fzf set laststatus=0 noshowmode noruler
   \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
 " coffeescript config
 hi link coffeeSpaceError NONE
