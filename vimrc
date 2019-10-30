@@ -1,5 +1,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Lexi's vimrc, borrowed from many places
+" Future Lexi: don't forget to brew install vim. YouCompleteMe won't work with system vim :/
 "
 " Shortcuts:
 "   ; maps to :
@@ -50,6 +51,7 @@ Plugin 'hukl/Smyck-Color-Scheme'
 Plugin 'vim-scripts/wombat256.vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'challenger-deep-theme/vim'
+Plugin 'NLKNguyen/papercolor-theme'
 
 " plugins
 Plugin 'mileszs/ack.vim'
@@ -93,6 +95,9 @@ Plugin 'w0rp/ale'
 call vundle#end()
 filetype plugin indent on
 
+" Faster jump-to-def in go
+let g:go_def_mode='godef'
+
 let g:ycm_server_python_interpreter='/usr/local/bin/python3'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -119,7 +124,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 
 " ale config
-let g:ale_linters = {'go': ['gometalinter --linter="vet:go vet --composites=false"', 'gofmt']}
+let g:ale_linters = {'go': ['gometalinter', 'gofmt']}
 let g:ale_go_metalinter_options = "--fast"
 let g:ale_lint_on_text_changed = "normal"
 let g:ale_lint_on_insert_leave = 1
@@ -210,7 +215,7 @@ endif
 " font options
 set background=dark
 set t_Co=256
-colorscheme challenger_deep
+colorscheme PaperColor
 
 " keep at least 5 lines below the cursor
 set scrolloff=5
@@ -286,8 +291,12 @@ nnoremap <leader>p :set invpaste<CR>
 nnoremap <leader>t :tabnew<CR>
 nnoremap <leader>s :vsplit<CR>
 nnoremap <leader>w :tabclose<CR>
+nnoremap vimrc :vs $MYVIMRC<CR>
+nnoremap vimre :so $MYVIMRC<CR>
 
 map \ <Plug>(easymotion-prefix)
+
+autocmd FileType go nmap <silent> <Leader>d <Plug>(go-def-tab)
 
 " ; is better than :, and kj is better than ctrl-c
 nnoremap ; :
